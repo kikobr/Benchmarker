@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
-require('../index');
+require('../benchmarker');
 //.cli(process.argv);

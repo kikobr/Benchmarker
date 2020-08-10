@@ -18,7 +18,15 @@ npm install
 ## Usage
 After installing the dependencies, call the script in your terminal:
 ```bash
-node index --search "checkin rules"
+node benchmarker.js "checkin rules"
+```
+
+### Simple query
+Pass a text string to benchmarker.js or use a --search parameter
+```bash
+node benchmarker.js "checkin rules"
+# same as
+node benchmarker.js --search "checkin rules"
 ```
 
 ### Dynamic queries
@@ -26,7 +34,7 @@ Use double brackets [[listItem]] to include dynamic variables from the lists cre
 
 For example, a list named "ciaBr" with the items "azul", "gol", "latam" and a search term like "regras de checkin [[ciaBr]]" will yield three variations of this query for each of the variables.
 ```bash
-node index --search "regras de checkin [[ciaBr]]"
+node benchmarker.js "regras de checkin [[ciaBr]]"
 # regras de checkin azul
 # regras de checkin gol
 # regras de checkin latam
@@ -35,7 +43,7 @@ node index --search "regras de checkin [[ciaBr]]"
 ### Multiple queries
 Use comma (,) to use input multiple sentences:
 ```bash
-node index --search "regras de checkin [[ciaBr]], checkin rules [[ciaEn]]"
+node benchmarker.js "regras de checkin [[ciaBr]], checkin rules [[ciaEn]]"
 # regras de checkin azul
 # regras de checkin gol
 # regras de checkin latam
@@ -47,10 +55,10 @@ node index --search "regras de checkin [[ciaBr]], checkin rules [[ciaEn]]"
 ### Screenshot Mobile and Desktop
 Use --desktop and --mobile parameter
 ```bash
-node index --search "regras de checkin [[ciaBr]]" --desktop --mobile
+node benchmarker.js "regras de checkin [[ciaBr]]" --desktop --mobile
 ```
 
 ### Hide browser
 ```bash
-node index --search "regras de checkin [[ciaBr]]" --headless
+node benchmarker.js "regras de checkin [[ciaBr]]" --headless
 ```

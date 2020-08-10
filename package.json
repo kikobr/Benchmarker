@@ -2,7 +2,7 @@
     "name": "design-benchmarker",
     "version": "1.0.1",
     "description": "",
-    "main": "index.js",
+    "main": "benchmarker.js",
     "bin": {
         "benchmarker": "bin/benchmarker.js"
     },
