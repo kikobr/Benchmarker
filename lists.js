@@ -9,7 +9,7 @@ module.exports = {
         "delta airlines",
         "british airways",
         "jetblue airlines",
-        "air asia airlines",
+        // "air asia airlines",
         "volaris airlines",
         "american airlines",
     ]

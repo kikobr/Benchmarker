@@ -1,6 +1,15 @@
 const puppeteer = require('puppeteer');
 const argv = require('minimist')(process.argv.slice(2));
 
+var start = process.hrtime();
+
+var elapsed_time = function(note){
+    var precision = 3; // 3 decimal places
+    var elapsed = process.hrtime(start)[1] / 1000000; // divide by a million to get nano to milli
+    console.log(process.hrtime(start)[0] + "s " + (false ? elapsed.toFixed(precision) + "and ms - " : "") + note); // print message + time
+    start = process.hrtime(); // reset the timer
+}
+
 let isHeadless = argv.headless ? true : false;
 let isDesktop = argv.desktop || ((!argv.desktop && argv.mobile) ? false : true);
 let isMobile = argv.mobile || false;
@@ -42,7 +51,7 @@ async function asyncForEach(array, callback) {
 let goToSiteAndPrint = async function(page, query, search){
     // await page.setUserAgent('UA-TEST');
     // await page.setUserAgent(`unique-${query}`);
-
+    await page.setDefaultTimeout(0);
     await page.setViewport({
         width: viewports[0].width,
         height: viewports[0].height,
@@ -110,6 +119,7 @@ let run = async () => {
 
     });
 
+    elapsed_time("finished");
     await browser.close();
 };
 run();
