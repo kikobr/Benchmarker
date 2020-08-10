@@ -16,6 +16,7 @@ let isDesktop = argv.desktop || ((!argv.desktop && argv.mobile) ? false : true);
 let isMobile = argv.mobile || false;
 let folder = argv.folder || "screenshots";
 
+
 // check if folder exists. if not, create it.
 try {
     if (!fs.existsSync(`./${folder}`)) {
@@ -41,7 +42,9 @@ if(isDesktop) viewports.push(desktopDimensions);
 if(isMobile) viewports.push(mobileDimensions);
 
 let lists = require("./lists");
-let search = argv.search || "regras checkin azul linhas";
+
+// use an explicit --search parameter, or the first string parameter or defaults to a mocked one
+let search = argv.search || (argv._.length ? argv._[0] : false) || "kiko herrschaft github";
 let queries = [];
 if(search){
     search
