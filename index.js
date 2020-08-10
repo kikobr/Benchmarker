@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const argv = require('minimist')(process.argv.slice(2));
+const fs = require("fs")
 
 var start = process.hrtime();
 
@@ -14,6 +15,16 @@ let isHeadless = argv.headless ? true : false;
 let isDesktop = argv.desktop || ((!argv.desktop && argv.mobile) ? false : true);
 let isMobile = argv.mobile || false;
 let folder = argv.folder || "screenshots";
+
+// check if folder exists. if not, create it.
+try {
+    if (!fs.existsSync(`./${folder}`)) {
+        fs.mkdirSync(folder);
+    }
+}
+catch(e) {
+    console.log("An error occurred while creating screenshots folder. Try creating it manually.")
+}
 
 console.log(`desktop ${isDesktop ? 'active' : 'inactive'}, mobile ${isMobile ? 'active' : 'inactive'}`);
 
@@ -106,7 +117,9 @@ let run = async () => {
         if(query.match(regexList)) {
             console.log(`dynamic query: ${query}`);
             let list = query.match(regexList)[1];
-
+            if (!lists[list]){
+                return console.log(`List [[${list}]] was not found. Check if you created it successfully inside lists.js or if this list is typed correctly.`)
+            }
             // pega a lista dinâmica e permuta as variações
             await asyncForEach(lists[list], async (item) => {
                 let newQuery = query.replace(regexList, item);
