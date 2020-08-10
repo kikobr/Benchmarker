@@ -1,0 +1,5 @@
+{
+    "chromeWebSecurity": false,
+    "video": false,
+    "responseTimeout": 60000
+}
