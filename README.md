@@ -1,5 +1,7 @@
 # Benchmarker
-This script is an automated tool for capturing multiple screenshots based on dynamic search terms.
+This script is an automated tool for capturing multiple screenshots based on dynamic search queries. It takes the queries, search them on Google (using Puppeteer.js), open the first result and take a screenshot of desktop and/or mobile versions. You can include multiple queries at once too.
+
+The main objective is to assist designers doing benchmarks or researching lots of pages, since it speeds and automates the work of searching for each page and taking snapshots.
 
 ## Installing
 1. Install [Node.js](https://nodejs.org/en/download/)
