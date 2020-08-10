@@ -5,16 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cypress:open": "cypress open"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cypress": "^4.12.1",
-    "minimist": "^1.2.5"
+    "puppeteer": "^5.2.1"
   },
   "devDependencies": {
-    "clipboardy": "^2.3.0",
-    "puppeteer": "^5.2.1"
   }
 }
