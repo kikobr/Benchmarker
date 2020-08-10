@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer');
-const clipboardy = require('clipboardy');
 const argv = require('minimist')(process.argv.slice(2));
 
 let isHeadless = argv.headless ? true : false;
