@@ -1,6 +1,10 @@
+// ignore "(node:6982) ExperimentalWarning: The fs.promises API is experimental" warnings
+process.removeAllListeners('warning');
+
 const puppeteer = require('puppeteer');
 const argv = require('minimist')(process.argv.slice(2));
 const fs = require("fs")
+const openExplorer = require('open-file-explorer');
 
 var start = process.hrtime();
 
@@ -15,6 +19,8 @@ let isHeadless = argv.headless ? true : false;
 let isDesktop = argv.desktop || ((!argv.desktop && argv.mobile) ? false : true);
 let isMobile = argv.mobile || false;
 let folder = argv.folder || "screenshots";
+let isShowingLists = argv.showLists ? true : false;
+let help = (argv.help || argv.h) ? true : false;
 
 
 // check if folder exists. if not, create it.
@@ -26,8 +32,6 @@ try {
 catch(e) {
     console.log("An error occurred while creating screenshots folder. Try creating it manually.")
 }
-
-console.log(`desktop ${isDesktop ? 'active' : 'inactive'}, mobile ${isMobile ? 'active' : 'inactive'}`);
 
 let desktopDimensions = {
     width: 1440,
@@ -44,7 +48,7 @@ if(isMobile) viewports.push(mobileDimensions);
 let lists = require("./lists");
 
 // use an explicit --search parameter, or the first string parameter or defaults to a mocked one
-let search = argv.search || (argv._.length ? argv._[0] : false) || "kiko herrschaft github";
+let search = argv.search || (argv._.length ? argv._[0] : null);
 let queries = [];
 if(search){
     search
@@ -110,9 +114,15 @@ let goToSiteAndPrint = async function(page, query, search){
     });
 }
 
-let run = async () => {
-    const browser = await puppeteer.launch({ headless: isHeadless });
+let runSearch = async () => {
+
+    const args = isHeadless ? ["--proxy-server='direct://'", '--proxy-bypass-list=*'] : [];
+    const browser = await puppeteer.launch({ headless: isHeadless, args: args });
     const page = await browser.newPage();
+    if(isHeadless){
+        // https://github.com/puppeteer/puppeteer/issues/1718#issuecomment-425618798
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36');
+    }
 
     await asyncForEach(queries, async (query) => {
 
@@ -138,4 +148,32 @@ let run = async () => {
     elapsed_time("finished");
     await browser.close();
 };
-run();
+
+if(help) {
+    console.log(`
+    The parameters you can use after benchmarker are: \n
+        "text": search inputed text \n
+        "[[ciaEn]]": search inputed text, injects list \n
+        --search "text": search inputed text \n
+        --folder ~/Desktop/screenshots: customizes screenshot folder \n
+        --showLists: show lists.js folder to customize lists \n
+        --desktop: screenshots in desktop viewport \n
+        --mobile: screenshots in mobile viewport \n
+        --headless: run browser in background
+    `)
+}
+else if(isShowingLists) {
+    console.log("Opening lists folder. Edit lists.js and then use them between brackets inside your search queries.");
+    openExplorer(__dirname, err => {
+        if(err) {
+            console.log(`Error opening lists folder`, err);
+        }
+        else {
+            //Do Something
+        }
+    });
+}
+else if(search) {
+    runSearch();
+}
+else console.log(`You are not searching for anything yet. Try something like 'benchmarker "baggage information [[ciaEn]]"'`);

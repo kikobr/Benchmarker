@@ -5,45 +5,48 @@ The main objective is to assist designers doing benchmarks or researching lots o
 
 ## Installing
 1. Install [Node.js](https://nodejs.org/en/download/)
-2. Clone this repository to your computer (download as ZIP ou type in the terminal):
-```bash
-git clone git@github.com:kikobr/Benchmarker.git
-```
-After cloning, go to the folder and install our dependencies:
-```bash
-cd ~/Documents/Benchmarker
-npm install
-```
+2. Open terminal and run
+    ```bash
+    npm i design-benchmarker -g
+    ```
+3. (Optional) You can also clone this repository or download as .ZIP. If you do so, in the codes below you will need to replace `benchmarker` to `node benchmarker.js`
 
 ## Usage
 After installing the dependencies, call the script in your terminal:
 ```bash
-node benchmarker.js "checkin rules"
+benchmarker "checkin rules"
 ```
 
 ### Simple query
-Pass a text string to benchmarker.js or use a --search parameter
+Pass a text string to benchmarker or use a `--search` parameter
 ```bash
-node benchmarker.js "checkin rules"
+benchmarker "checkin rules"
 # same as
-node benchmarker.js --search "checkin rules"
+benchmarker --search "checkin rules"
+# same as
+```
+
+### Change screenshots directory
+If you don't know where the screenshots are being saved to or want to change it, set it manually:
+```bash
+benchmarker "checkin rules" --folder ~/Desktop/screenshots
 ```
 
 ### Dynamic queries
-Use double brackets [[listItem]] to include dynamic variables from the lists created in "lists.js".
+Use double brackets `[[listItem]]` to include dynamic variables from the lists created in [lists.js](https://github.com/kikobr/Benchmarker/blob/master/lists.js). This is located in the folder your benchmarker is installed (See "Create or edit lists" below).
 
-For example, a list named "ciaBr" with the items "azul", "gol", "latam" and a search term like "regras de checkin [[ciaBr]]" will yield three variations of this query for each of the variables.
+For example, a list named "ciaBr" with the items "azul", "gol", "latam" and a search term like `regras de checkin [[ciaBr]]` will yield three variations of this query for each of the variables.
 ```bash
-node benchmarker.js "regras de checkin [[ciaBr]]"
+benchmarker "regras de checkin [[ciaBr]]"
 # regras de checkin azul
 # regras de checkin gol
 # regras de checkin latam
 ```
 
 ### Multiple queries
-Use comma (,) to use input multiple sentences:
+Use comma (`,`) to use input multiple sentences:
 ```bash
-node benchmarker.js "regras de checkin [[ciaBr]], checkin rules [[ciaEn]]"
+benchmarker "regras de checkin [[ciaBr]], checkin rules [[ciaEn]]"
 # regras de checkin azul
 # regras de checkin gol
 # regras de checkin latam
@@ -52,13 +55,28 @@ node benchmarker.js "regras de checkin [[ciaBr]], checkin rules [[ciaEn]]"
 # ...
 ```
 
-### Screenshot Mobile and Desktop
-Use --desktop and --mobile parameter
+### Create or edit lists
+Run the command below to show your benchmarker folder, then modify `lists.js` file
 ```bash
-node benchmarker.js "regras de checkin [[ciaBr]]" --desktop --mobile
+benchmarker --showLists
+```
+
+### Screenshot Mobile and Desktop
+Use `--desktop` and `--mobile` parameter
+```bash
+benchmarker "regras de checkin [[ciaBr]]" --desktop --mobile
 ```
 
 ### Hide browser
+This will make Chromium browser run in background.
 ```bash
-node benchmarker.js "regras de checkin [[ciaBr]]" --headless
+benchmarker "regras de checkin [[ciaBr]]" --headless
+```
+
+### Help
+Forgot something? All the commands are summarised with:
+```bash
+benchmarker --help
+# or
+benchmarker -h
 ```
