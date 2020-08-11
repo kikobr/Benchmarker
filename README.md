@@ -14,7 +14,7 @@ The main objective is to assist designers doing benchmarks or researching lots o
 ## Usage
 After installing the dependencies, call the script in your terminal:
 ```bash
-benchmarker "checkin rules"
+benchmarker "checkin rules" --folder ~/Desktop/screenshots
 ```
 
 ### Simple query

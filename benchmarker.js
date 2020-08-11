@@ -25,12 +25,12 @@ let help = (argv.help || argv.h) ? true : false;
 
 // check if folder exists. if not, create it.
 try {
-    if (!fs.existsSync(`./${folder}`)) {
+    if (!fs.existsSync(`${folder}`)) {
         fs.mkdirSync(folder);
     }
 }
 catch(e) {
-    console.log("An error occurred while creating screenshots folder. Try creating it manually.")
+    console.log("If this folder wasn't created, try creating it manually.")
 }
 
 let desktopDimensions = {
