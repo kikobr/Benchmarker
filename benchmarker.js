@@ -18,6 +18,7 @@ let isHeadless = argv.headless ? true : false;
 let isDesktop = argv.desktop || ((!argv.desktop && argv.mobile) ? false : true);
 let isMobile = argv.mobile || false;
 let folder = argv.folder || "screenshots";
+let log = argv.log ? true : false;
 let isShowingLists = argv.showLists ? true : false;
 let isSettingList = argv.setList ? true : false;
 let help = (argv.help || argv.h) ? true : false;
@@ -52,7 +53,7 @@ let search = argv.search || (argv._.length ? argv._[0] : null);
 let queries = [];
 if(search){
     search
-        .replace(", ",",")
+        .replace(/, /g, ",")
         .split(",").forEach((query) => queries.push(query));
 }
 // let regexList = /\$\{(.*?)\}/;
@@ -149,6 +150,9 @@ let runSearch = async () => {
     await browser.close();
 };
 
+if(log) {
+    console.log(process.cwd())
+}
 if(help) {
     console.log(`
     The parameters you can use after benchmarker are: \n
@@ -177,13 +181,13 @@ else if(isShowingLists) {
 else if (isSettingList){
     let newList = argv.setList;
     let newListName = newList.split("=")[0];
-    let newListValues = newList.split("=")[1].replace(", ",",").split(",");
+    let newListValues = newList.split("=")[1].replace(/, /g,",").split(",");
 
     let listsCopy = JSON.parse(JSON.stringify(lists));
     listsCopy[newListName] = newListValues;
 
     try {
-        fs.writeFile('./lists.js', `module.exports = ${JSON.stringify(listsCopy, null, "\t")}`, (err, data)=>{
+        fs.writeFile(process.cwd()+'/lists.js', `module.exports = ${JSON.stringify(listsCopy, null, "\t")}`, (err, data)=>{
             console.log("Lists.js updated successfully.");
         });
     } catch (error) {
