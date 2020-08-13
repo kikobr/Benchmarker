@@ -3,9 +3,8 @@ process.removeAllListeners('warning');
 
 const puppeteer = require('puppeteer');
 const argv = require('minimist')(process.argv.slice(2));
-const fs = require("fs")
+const fs = require("fs");
 const openExplorer = require('open-file-explorer');
-
 var start = process.hrtime();
 
 var elapsed_time = function(note){
@@ -20,6 +19,7 @@ let isDesktop = argv.desktop || ((!argv.desktop && argv.mobile) ? false : true);
 let isMobile = argv.mobile || false;
 let folder = argv.folder || "screenshots";
 let isShowingLists = argv.showLists ? true : false;
+let isSettingList = argv.setList ? true : false;
 let help = (argv.help || argv.h) ? true : false;
 
 
@@ -30,7 +30,7 @@ try {
     }
 }
 catch(e) {
-    console.log("If this folder wasn't created, try creating it manually.")
+    console.log("If this folder wasn't created, try creating it manually.", e)
 }
 
 let desktopDimensions = {
@@ -157,6 +157,7 @@ if(help) {
         --search "text": search inputed text \n
         --folder ~/Desktop/screenshots: customizes screenshot folder \n
         --showLists: show lists.js folder to customize lists \n
+        --setList "name=value 1, value 2, value 3": create a new list \n
         --desktop: screenshots in desktop viewport \n
         --mobile: screenshots in mobile viewport \n
         --headless: run browser in background
@@ -172,6 +173,24 @@ else if(isShowingLists) {
             //Do Something
         }
     });
+}
+else if (isSettingList){
+    let newList = argv.setList;
+    let newListName = newList.split("=")[0];
+    let newListValues = newList.split("=")[1].replace(", ",",").split(",");
+
+    let listsCopy = JSON.parse(JSON.stringify(lists));
+    listsCopy[newListName] = newListValues;
+
+    try {
+        fs.writeFile('./lists.js', `module.exports = ${JSON.stringify(listsCopy, null, "\t")}`, (err, data)=>{
+            console.log("Lists.js updated successfully.");
+        });
+    } catch (error) {
+        console.log("Error writing to Lists.js. Try editing it manually.");
+        console.log(error);
+        openExplorer(__dirname, err => {});
+    }
 }
 else if(search) {
     runSearch();

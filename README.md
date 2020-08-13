@@ -56,7 +56,11 @@ benchmarker "regras de checkin [[ciaBr]], checkin rules [[ciaEn]]" --folder ~/De
 ```
 
 ### Create or edit lists
-Run the command below to show your benchmarker folder, then modify `lists.js` file
+Use `--setList` to create a new list. Use `=` to define the list name and separate its values with `,`:
+```bash
+benchmarker --setList "listName=item 1, item 2"
+```
+You can manually update the list, just edit list.js file. To view its folder, use `--showLists`:
 ```bash
 benchmarker --showLists
 ```
@@ -68,7 +72,7 @@ benchmarker "regras de checkin [[ciaBr]]" --desktop --mobile --folder ~/Desktop/
 ```
 
 ### Hide browser
-This will make Chromium browser run in background.
+Use `--headless` to make Chromium browser run in background:
 ```bash
 benchmarker "regras de checkin [[ciaBr]]" --headless --folder ~/Desktop/screenshots
 ```
