@@ -17,7 +17,7 @@ var elapsed_time = function(note){
 let isHeadless = argv.headless ? true : false;
 let isDesktop = argv.desktop || ((!argv.desktop && argv.mobile) ? false : true);
 let isMobile = argv.mobile || false;
-let folder = argv.folder || "screenshots";
+let folder = argv.folder || `${__dirname}/screenshots`;
 let log = argv.log ? true : false;
 let isShowingLists = argv.showLists ? true : false;
 let isSettingList = argv.setList ? true : false;
@@ -151,7 +151,8 @@ let runSearch = async () => {
 };
 
 if(log) {
-    console.log(process.cwd())
+    console.log(process.execPath);
+    console.log(__dirname);
 }
 if(help) {
     console.log(`
@@ -187,7 +188,7 @@ else if (isSettingList){
     listsCopy[newListName] = newListValues;
 
     try {
-        fs.writeFile(process.cwd()+'/lists.js', `module.exports = ${JSON.stringify(listsCopy, null, "\t")}`, (err, data)=>{
+        fs.writeFile(`${__dirname}/lists.js`, `module.exports = ${JSON.stringify(listsCopy, null, "\t")}`, (err, data)=>{
             console.log("Lists.js updated successfully.");
         });
     } catch (error) {
